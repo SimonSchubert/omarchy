@@ -6,7 +6,7 @@
   },
   "bar": {
     "position": "top",
-    "transparent": false,
+    "background": "opaque",
     "centerAnchor": "omarchy.clock",
     "layout": {
       "left": [
@@ -28,7 +28,7 @@
           "verticalFormat": "HH\n\u2014\nmm"
         },
         {
-          "id": "omarchy.keyboard-layout"
+          "id": "omarchy.elsewhen"
         },
         {
           "id": "omarchy.weather"
@@ -38,6 +38,9 @@
         }
       ],
       "right": [
+        {
+          "id": "omarchy.keyboard-layout"
+        },
         {
           "id": "omarchy.tray"
         },
@@ -61,6 +64,18 @@
         }
       ]
     }
+  },
+  "dock": {
+    "position": "bottom",
+    "pinned": [
+      "org.gnome.Nautilus",
+      "chromium",
+      "foot",
+      "omacalc",
+      "omawrite",
+      "X",
+      "YouTube"
+    ]
   },
   "plugins": []
 }

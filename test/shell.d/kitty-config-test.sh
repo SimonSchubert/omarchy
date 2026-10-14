@@ -11,8 +11,14 @@ legacy="$ROOT/test/shell.d/fixtures/kitty/legacy.conf"
 migration="$ROOT/migrations/1788745941.sh"
 mkdir -p "$(dirname "$kitty_config")" "$test_dir/bin"
 
+# The migration announces the restart with gum, which is mise-managed on
+# some machines and refuses to run under a scratch HOME it does not
+# trust. Stub it (echoing its text, which cases below look for).
+printf '#!/bin/bash\nprintf "%%s\\n" "$@"\n' >"$test_dir/bin/gum"
+chmod +x "$test_dir/bin/gum"
+
 run_migration() {
-  env HOME="$test_home" OMARCHY_PATH="$ROOT" PATH="$ROOT/bin:$PATH" bash -euo pipefail "$migration"
+  env HOME="$test_home" OMARCHY_PATH="$ROOT" PATH="$test_dir/bin:$ROOT/bin:$PATH" bash -euo pipefail "$migration"
 }
 
 cp "$legacy" "$kitty_config"
@@ -150,5 +156,5 @@ pass "font controls create missing Kitty overrides without restoring the theme i
 if "$ROOT/bin/omarchy-cmd-present" kitty; then
   kitty +runpy "$(cat "$ROOT/test/shell.d/fixtures/kitty/check-config.py")"
 else
-  pass "Kitty not installed; skipping native config parser checks"
+  skip "Kitty not installed; skipping native config parser checks"
 fi
